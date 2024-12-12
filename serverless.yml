@@ -98,7 +98,7 @@ resources:
           - AttributeName: fusionKey
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-    PersonaliadoTable:
+    PersonalizadoTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:provider.environment.DYNAMODB_PERSONALIZADO_TABLE}
