@@ -5,6 +5,7 @@ import { OmdbRepository } from "../../infra/db/repositories/OmdbRepository";
 import { StarWarsRepository } from "../../infra/db/repositories/StarWarsRepository";
 import { Controller } from "../protocols/Controller";
 import { FusionadosParameters } from "../protocols/FusionadosRequest";
+import logger from "../../shared/logger";
 
 export class FusionadosController implements Controller {
   constructor(
@@ -14,6 +15,8 @@ export class FusionadosController implements Controller {
   ) {}
 
   async handle(event: APIGatewayEvent): Promise<Fusion> {
+    logger.info("FusionadosController", { event });
+
     const parameters = (event.queryStringParameters || {
       peopleId: 5,
     }) as FusionadosParameters;

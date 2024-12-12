@@ -7,10 +7,12 @@ provider:
   region: "us-east-1"
   memorySize: 512
   timeout: 10
+  architecture: x86_64
   environment:
     DYNAMODB_CACHE_TABLE: ${self:service}-${sls:stage}-CacheTable
     DYNAMODB_FUSION_TABLE: ${self:service}-${sls:stage}-FusionadosTable
     DYNAMODB_PERSONALIZADO_TABLE: ${self:service}-${sls:stage}-PersonalizadoTable
+    LOG_LEVEL: INFO
     OMDB_API_KEY: 81381cff
   iamRoleStatements:
     - Effect: Allow
@@ -19,9 +21,24 @@ provider:
       Resource: "*"
     - Effect: Allow
       Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: "*"
+    - Effect: Allow
+      Action:
         - dynamodb:*
       Resource:
         - arn:aws:dynamodb:${self:provider.region}:*:table/*
+
+package:
+  individually: true
+  exclude:
+    - app/**
+    - jest.config.*
+    - README.md
+    - ts-jest.config.js
+    - tests/**
 
 functions:
   getFusionados:
@@ -31,6 +48,8 @@ functions:
       - http:
           path: /fusionados
           method: get
+    logs:
+      level: INFO
 
   postAlmacenar:
     handler: dist/handler.postAlmacenar
@@ -39,6 +58,8 @@ functions:
       - http:
           path: /almacenar
           method: post
+    logs:
+      level: INFO
 
   getHistorial:
     handler: dist/handler.getHistorial
@@ -47,6 +68,8 @@ functions:
       - http:
           path: /historial
           method: get
+    logs:
+      level: INFO
 
 plugins:
   - serverless-offline
@@ -63,9 +86,7 @@ resources:
         KeySchema:
           - AttributeName: cacheKey
             KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+        BillingMode: PAY_PER_REQUEST
     FusionadosTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -76,9 +97,7 @@ resources:
         KeySchema:
           - AttributeName: fusionKey
             KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+        BillingMode: PAY_PER_REQUEST
     PersonaliadoTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -89,6 +108,4 @@ resources:
         KeySchema:
           - AttributeName: perId
             KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
+        BillingMode: PAY_PER_REQUEST
