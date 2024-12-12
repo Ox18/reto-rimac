@@ -1,0 +1,94 @@
+service: rimac-service-api
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: "dev"
+  region: "us-east-1"
+  memorySize: 512
+  timeout: 10
+  environment:
+    DYNAMODB_CACHE_TABLE: ${self:service}-${sls:stage}-CacheTable
+    DYNAMODB_FUSION_TABLE: ${self:service}-${sls:stage}-FusionadosTable
+    DYNAMODB_PERSONALIZADO_TABLE: ${self:service}-${sls:stage}-PersonalizadoTable
+    OMDB_API_KEY: 81381cff
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:${self:provider.region}:*:table/*
+
+functions:
+  getFusionados:
+    handler: dist/handler.getFusionados
+    description: Get merged data from APIs
+    events:
+      - http:
+          path: /fusionados
+          method: get
+
+  postAlmacenar:
+    handler: dist/handler.postAlmacenar
+    description: Store custom data in the database
+    events:
+      - http:
+          path: /almacenar
+          method: post
+
+  getHistorial:
+    handler: dist/handler.getHistorial
+    description: Get history of merged API responses
+    events:
+      - http:
+          path: /historial
+          method: get
+
+plugins:
+  - serverless-offline
+
+resources:
+  Resources:
+    CacheTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_CACHE_TABLE}
+        AttributeDefinitions:
+          - AttributeName: cacheKey
+            AttributeType: S
+        KeySchema:
+          - AttributeName: cacheKey
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    FusionadosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_FUSION_TABLE}
+        AttributeDefinitions:
+          - AttributeName: fusionKey
+            AttributeType: S
+        KeySchema:
+          - AttributeName: fusionKey
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    PersonaliadoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_PERSONALIZADO_TABLE}
+        AttributeDefinitions:
+          - AttributeName: perId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: perId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
