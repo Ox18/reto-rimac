@@ -1,4 +1,4 @@
-service: rimac-service-api
+service: rimac-service-api-aws
 
 provider:
   name: aws
@@ -11,7 +11,7 @@ provider:
   environment:
     DYNAMODB_CACHE_TABLE: ${self:service}-${sls:stage}-CacheTable
     DYNAMODB_FUSION_TABLE: ${self:service}-${sls:stage}-FusionadosTable
-    DYNAMODB_PERSONALIZADO_TABLE: ${self:service}-${sls:stage}-PersonalizadoTable
+    DYNAMODB_PERSONALIZADO_TABLE: ${self:service}-${sls:stage}-PersonalizadosTable
     LOG_LEVEL: INFO
     OMDB_API_KEY: 81381cff
   iamRoleStatements:
@@ -51,8 +51,6 @@ functions:
       - http:
           path: /fusionados
           method: get
-    logs:
-      level: INFO
 
   postAlmacenar:
     handler: dist/handler.postAlmacenar
@@ -61,8 +59,6 @@ functions:
       - http:
           path: /almacenar
           method: post
-    logs:
-      level: INFO
 
   getHistorial:
     handler: dist/handler.getHistorial
@@ -71,8 +67,6 @@ functions:
       - http:
           path: /historial
           method: get
-    logs:
-      level: INFO
 
 plugins:
   - serverless-offline
