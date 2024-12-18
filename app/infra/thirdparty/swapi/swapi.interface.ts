@@ -22,7 +22,7 @@ export type People = {
   skin_color: string;
   eye_color: string;
   birth_year: string;
-  gender: "male" | "female";
+  gender: string;
   homeworld: string;
   films: string[];
   species: any[];

@@ -20,7 +20,7 @@ export class FusionadosController implements Controller {
     public readonly fusionRepository: FusionRepository
   ) {}
 
-  async handle(event: APIGatewayEvent): Promise<Fusionados> {
+  async handle(event: any): Promise<Fusionados> {
     logger.info("FusionadosController", { event });
 
     const peopleId = Number(
