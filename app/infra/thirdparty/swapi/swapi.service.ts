@@ -1,20 +1,15 @@
 import axios, { AxiosInstance } from "axios";
-import { FindFilmRepository } from "../../../data/protocols/db/repositories/starwars/FindFilmRepository";
-import { FindPeopleRepository } from "../../../data/protocols/db/repositories/starwars/FindPeopleRepository";
-import { FindFilm } from "../../../domain/usecases/FindFilm";
-import { FindPeople } from "../../../domain/usecases/FindPeople";
 import { Cache } from "../../../shared/cache";
+import { FindFilm, FindPeople } from "./swapi.interface";
 
-export class StarWarsRepository
-  implements FindFilmRepository, FindPeopleRepository
-{
+export class SwapiService {
   private cache: Cache;
   private apiClient: AxiosInstance;
 
   constructor() {
     this.cache = new Cache();
     this.apiClient = axios.create({
-      baseURL: "https://swapi.dev/api/",
+      baseURL: "https://swapi.py4e.com/api/",
     });
   }
 

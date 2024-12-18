@@ -1,13 +1,13 @@
-import { Fusion } from "../models/Fusion";
+import { Fusionados } from "../models/Fusionados";
 
-export namespace PaginatedFusion {
+export namespace PaginatedFusionados {
   export type Params = {
     page: number;
     limit: number;
   };
 
   export type Response = {
-    data: Fusion[];
+    data: Fusionados[];
     total: number;
     page: number;
     limit: number;

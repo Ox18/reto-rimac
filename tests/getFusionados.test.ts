@@ -32,7 +32,7 @@ describe("FusionadosController", () => {
   });
 
   it("debería retornar los datos fusionados correctamente", async () => {
-    fusionRepositoryMock.findFusion.mockResolvedValue(null);
+    fusionRepositoryMock.FindFusionados.mockResolvedValue(null);
     starWarsRepositoryMock.findPeople.mockResolvedValue(findPeopleMock);
 
     starWarsRepositoryMock.findFilm.mockResolvedValue(findFilmMock);

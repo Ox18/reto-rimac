@@ -1,4 +1,13 @@
-export interface MovieResult {
+export namespace FindMovie {
+  export type Params = {
+    title: string;
+    year: number;
+  };
+
+  export type Response = Movie;
+}
+
+export interface Movie {
   Title: string;
   Year: string;
   Rated: string;

@@ -2,9 +2,9 @@ import { dynamoDB } from "../connection/DbConnection";
 import { CreateFusionRepository } from "../../../data/protocols/db/repositories/fusion/CreateFusionRepository";
 import { FindFusionRepository } from "../../../data/protocols/db/repositories/fusion/FindFusionRepository";
 import { PaginatedRepository } from "../../../data/protocols/db/repositories/fusion/PaginatedRepository";
-import { CreateFusion } from "../../../domain/usecases/CreateFusion";
-import { FindFusion } from "../../../domain/usecases/FindFusion";
-import { PaginatedFusion } from "../../../domain/usecases/PaginatedFusion";
+import { CreateFusion } from "../../../domain/usecases/CreateFusionados";
+import { FindFusionados } from "../../../domain/usecases/FindFusionados";
+import { PaginatedFusionados} from "../../../domain/usecases/PaginatedFusionados";
 
 const TABLE = process.env.DYNAMODB_FUSION_TABLE || "FusionTable";
 
@@ -17,7 +17,7 @@ export class FusionRepository
     const params = {
       TableName: TABLE,
       Item: {
-        fusionKey: String(data.character_id),
+        fusionKey: String(data.id),
         data,
       },
     };
@@ -27,7 +27,7 @@ export class FusionRepository
     return true;
   }
 
-  async findFusion(data: FindFusion.Params): Promise<FindFusion.Response> {
+  async findFusion(data: FindFusionados.Params): Promise<FindFusionados.Response> {
     const params = {
       TableName: TABLE,
       Key: {
@@ -37,12 +37,12 @@ export class FusionRepository
 
     const result = await dynamoDB.get(params).promise();
 
-    return result.Item ? (result.Item.data as FindFusion.Response) : null;
+    return result.Item ? (result.Item.data as FindFusionados.Response) : null;
   }
 
   async paginated(
-    data: PaginatedFusion.Params
-  ): Promise<PaginatedFusion.Response> {
+    data: PaginatedFusionados.Params
+  ): Promise<PaginatedFusionados.Response> {
     const fusionKeys = [];
 
     const page = Number(data.page);
@@ -73,7 +73,7 @@ export class FusionRepository
         : [];
 
     return {
-      data: items.sort((a, b) => a.character_id - b.character_id),
+      data: items.sort((a, b) => a.id - b.id),
       total: items.length,
       page,
       limit,

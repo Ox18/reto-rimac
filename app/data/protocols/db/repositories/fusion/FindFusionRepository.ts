@@ -1,5 +1,5 @@
-import { FindFusion } from "../../../../../domain/usecases/FindFusion";
+import { FindFusionados } from "../../../../../domain/usecases/FindFusionados";
 
 export interface FindFusionRepository {
-  findFusion: (data: FindFusion.Params) => Promise<FindFusion.Response>;
+  findFusion: (data: FindFusionados.Params) => Promise<FindFusionados.Response>;
 }

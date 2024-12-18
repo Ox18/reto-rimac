@@ -1,7 +1,7 @@
-import { PaginatedFusion } from "../../../../../domain/usecases/PaginatedFusion";
+import { PaginatedFusionados} from "../../../../../domain/usecases/PaginatedFusionados";
 
 export interface PaginatedRepository {
   paginated: (
-    params: PaginatedFusion.Params
-  ) => Promise<PaginatedFusion.Response>;
+    params: PaginatedFusionados.Params
+  ) => Promise<PaginatedFusionados.Response>;
 }

@@ -1,13 +1,13 @@
 import { FusionRepository } from "../../infra/db/repositories/FusionRepository";
-import { OmdbRepository } from "../../infra/db/repositories/OmdbRepository";
-import { StarWarsRepository } from "../../infra/db/repositories/StarWarsRepository";
+import { OMDBService } from "../../infra/thirdparty/omdb/omdb.service";
+import { SwapiService } from "../../infra/thirdparty/swapi/swapi.service";
 import { FusionadosController } from "../../presentation/controllers/FusionadosController";
 import { Controller } from "../../presentation/protocols/Controller";
 
 export const makeFusionadosController = (): Controller => {
   const controller = new FusionadosController(
-    new StarWarsRepository(),
-    new OmdbRepository(),
+    new SwapiService(),
+    new OMDBService(),
     new FusionRepository()
   );
 
