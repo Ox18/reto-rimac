@@ -1,3 +1,3 @@
 export const FUSIONADOS_MIN_PEOPLE_ID = 1;
 
-export const FUSIONADOS_MAX_PEOPLE_ID = 10;
+export const FUSIONADOS_MAX_PEOPLE_ID = 3;
