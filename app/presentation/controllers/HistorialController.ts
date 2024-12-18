@@ -7,7 +7,7 @@ export class HistorialController implements Controller {
   constructor(public readonly fusionRepository: FusionRepository) {}
 
   async handle(event: any): Promise<any> {
-    logger.info("HistorialController", { event });
+    logger.info("Iniciando búsqueda de historial");
 
     const parameters = {
       page: 1,
@@ -19,6 +19,8 @@ export class HistorialController implements Controller {
       page: Number(parameters.page),
       limit: Number(parameters.limit),
     });
+
+    logger.info("Historial encontrado con éxito");
 
     return response;
   }

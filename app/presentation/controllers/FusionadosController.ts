@@ -10,6 +10,7 @@ import {
   FUSIONADOS_MAX_PEOPLE_ID,
   FUSIONADOS_MIN_PEOPLE_ID,
 } from "../../shared/consts/common";
+import logger from "../../shared/logger";
 export class FusionadosController implements Controller {
   constructor(
     public readonly swapiService: SwapiService,
@@ -18,6 +19,7 @@ export class FusionadosController implements Controller {
   ) {}
 
   async handle(event: any): Promise<Fusionados> {
+    logger.info("Iniciando búsqueda de fusionados");
     const peopleId = Number(
       event.queryStringParameters?.peopleId ||
         randomNumber(FUSIONADOS_MIN_PEOPLE_ID, FUSIONADOS_MAX_PEOPLE_ID)
@@ -56,6 +58,7 @@ export class FusionadosController implements Controller {
 
     await this.fusionRepository.create(fusion);
 
+    logger.info("Fusionado encontrado con éxito");
     return fusion;
   }
 }

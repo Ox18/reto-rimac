@@ -2,6 +2,7 @@ import { BaseException } from "../../presentation/exceptions/BaseException";
 import { Controller } from "../../presentation/protocols/Controller";
 import { Middleware } from "../../presentation/protocols/Middleware";
 import { ServerlessResponse } from "../../presentation/protocols/ServerlessResponse";
+import logger from "../../shared/logger";
 
 export const routeAdapter = (
   controller: Controller,
@@ -43,6 +44,7 @@ export const routeAdapter = (
         body: JSON.stringify(response),
       };
     } catch (error) {
+      logger.error("Error al ejecutar el controlador", error);
       if (error instanceof BaseException) {
         return {
           statusCode: error.statusCode,
