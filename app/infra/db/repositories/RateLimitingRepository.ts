@@ -1,5 +1,4 @@
 import { dynamoDB } from "../connection/DbConnection";
-import AWSXRay from "aws-xray-sdk";
 
 const RATE_LIMITING_TABLE =
   process.env.DYNAMODB_RATE_LIMITING_TABLE || "RateLimitingTable";
@@ -10,16 +9,6 @@ export class RateLimitingRepository {
   constructor(private readonly service: string = "") {}
 
   async findByIp(ip: string): Promise<any> {
-    AWSXRay.captureFunc(
-      "## RateLimitingRepository.findByIp",
-      async (subsegment) => {
-        if (subsegment) {
-          subsegment.addAnnotation("ip", ip);
-          subsegment.close();
-        }
-      }
-    );
-
     const rateKey = this.getKey(ip);
 
     const params = {
@@ -35,16 +24,6 @@ export class RateLimitingRepository {
   }
 
   async incrementCounter(ip: string, ttl: number): Promise<void> {
-    AWSXRay.captureFunc(
-      "## RateLimitingRepository.incrementCounter",
-      async (subsegment) => {
-        if (subsegment) {
-          subsegment.addAnnotation("ip", ip);
-          subsegment.close();
-        }
-      }
-    );
-
     const rateKey = this.getKey(ip);
     const updateParams = {
       TableName: RATE_LIMITING_TABLE,
@@ -67,16 +46,6 @@ export class RateLimitingRepository {
   }
 
   async create(ip: string, ttl: number): Promise<void> {
-    AWSXRay.captureFunc(
-      "## RateLimitingRepository.create",
-      async (subsegment) => {
-        if (subsegment) {
-          subsegment.addAnnotation("ip", ip);
-          subsegment.close();
-        }
-      }
-    );
-
     const rateKey = this.getKey(ip);
     const params = {
       TableName: RATE_LIMITING_TABLE,

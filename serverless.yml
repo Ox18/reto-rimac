@@ -60,6 +60,8 @@ functions:
   getFusionados:
     handler: dist/handler.getFusionados
     description: Get merged data from APIs
+    Properties:
+      Tracing: Active
     events:
       - http:
           path: /fusionados
@@ -68,6 +70,8 @@ functions:
   postAlmacenar:
     handler: dist/handler.postAlmacenar
     description: Store custom data in the database
+    Properties:
+      Tracing: Active
     events:
       - http:
           path: /almacenar
@@ -76,6 +80,8 @@ functions:
   getHistorial:
     handler: dist/handler.getHistorial
     description: Get history of merged API responses
+    Properties:
+      Tracing: Active
     events:
       - http:
           path: /historial
