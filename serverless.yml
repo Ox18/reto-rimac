@@ -12,6 +12,7 @@ provider:
     DYNAMODB_CACHE_TABLE: ${self:service}-${sls:stage}-CacheTable
     DYNAMODB_FUSION_TABLE: ${self:service}-${sls:stage}-FusionadosTable
     DYNAMODB_PERSONALIZADO_TABLE: ${self:service}-${sls:stage}-PersonalizadosTable
+    DYNAMODB_RATE_LIMITING_TABLE: ${self:service}-${sls:stage}-RateLimitingTable
     LOG_LEVEL: INFO
     OMDB_API_KEY: 81381cff
   iamRoleStatements:
@@ -104,5 +105,16 @@ resources:
             AttributeType: S
         KeySchema:
           - AttributeName: perId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    RateLimitingTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_RATE_LIMITING_TABLE}
+        AttributeDefinitions:
+          - AttributeName: rateKey
+            AttributeType: S
+        KeySchema:
+          - AttributeName: rateKey
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST

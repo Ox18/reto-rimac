@@ -2,7 +2,6 @@ import { dynamoDB } from "../../infra/db/connection/DbConnection";
 
 const CACHE_TABLE = process.env.DYNAMODB_CACHE_TABLE || "CacheTable";
 
-
 export class Cache {
   private expirationTime: number = 30 * 60;
   private table: string = CACHE_TABLE;

@@ -23,8 +23,6 @@ export class FusionadosController implements Controller {
         randomNumber(FUSIONADOS_MIN_PEOPLE_ID, FUSIONADOS_MAX_PEOPLE_ID)
     );
 
-    console.log({ peopleId });
-
     const fusionFinded = await this.fusionRepository.findFusion({
       characterId: peopleId,
     });

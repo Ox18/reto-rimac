@@ -15,8 +15,6 @@ export class HistorialController implements Controller {
       ...event.queryStringParameters,
     } as HistorialParameters;
 
-    console.log({ parameters });
-
     const response = await this.fusionRepository.paginated({
       page: Number(parameters.page),
       limit: Number(parameters.limit),

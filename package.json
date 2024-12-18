@@ -2,7 +2,7 @@
   "scripts": {
     "build": "rm -rf dist && tsc",
     "local": "npm run build && serverless offline start",
-    "deploy": "serverless deploy --stage dev",
+    "deploy": "npm run build && serverless deploy --stage dev --force",
     "test": "jest --config jest.unit.config.js"
   },
   "devDependencies": {
