@@ -37,7 +37,10 @@ package:
     - app/**
     - jest.config.*
     - README.md
-    - ts-jest.config.js
+    - jest.config.ts
+    - jest.unit.config.js
+    - README.md
+    - tsconfig.json
     - tests/**
 
 functions:
