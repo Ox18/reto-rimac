@@ -4,7 +4,7 @@ import { FindFusionRepository } from "../../../data/protocols/db/repositories/fu
 import { PaginatedRepository } from "../../../data/protocols/db/repositories/fusion/PaginatedRepository";
 import { CreateFusion } from "../../../domain/usecases/CreateFusionados";
 import { FindFusionados } from "../../../domain/usecases/FindFusionados";
-import { PaginatedFusionados} from "../../../domain/usecases/PaginatedFusionados";
+import { PaginatedFusionados } from "../../../domain/usecases/PaginatedFusionados";
 
 const TABLE = process.env.DYNAMODB_FUSION_TABLE || "FusionTable";
 
@@ -27,7 +27,9 @@ export class FusionRepository
     return true;
   }
 
-  async findFusion(data: FindFusionados.Params): Promise<FindFusionados.Response> {
+  async findFusion(
+    data: FindFusionados.Params
+  ): Promise<FindFusionados.Response> {
     const params = {
       TableName: TABLE,
       Key: {
@@ -43,40 +45,45 @@ export class FusionRepository
   async paginated(
     data: PaginatedFusionados.Params
   ): Promise<PaginatedFusionados.Response> {
-    const fusionKeys = [];
-
     const page = Number(data.page);
     const limit = Number(data.limit) || 10;
 
+    // Calcular el inicio y fin para el rango de elementos a recuperar
     const start = (page - 1) * limit;
-    const end = page * limit + 1;
 
-    for (let i = start; i < end; i++) {
-      fusionKeys.push(i.toString());
-    }
-
-    const params: AWS.DynamoDB.DocumentClient.BatchGetItemInput = {
-      RequestItems: {
-        [TABLE]: {
-          Keys: fusionKeys.map((key) => ({
-            fusionKey: key,
-          })),
-        },
-      },
+    const params: AWS.DynamoDB.DocumentClient.ScanInput = {
+      TableName: TABLE,
+      ExclusiveStartKey:
+        start > 0 ? { fusionKey: start.toString() } : undefined,
+      Limit: limit,
     };
 
-    const result = await dynamoDB.batchGet(params).promise();
+    // Ejecutar la consulta
+    const result = await dynamoDB.scan(params).promise();
 
     const items =
-      result?.Responses && result.Responses[TABLE]
-        ? result.Responses[TABLE].map((item) => item.data)
+      result?.Items && Array.isArray(result.Items)
+        ? result.Items.map((item) => item.data)
         : [];
+
+    // Calcular el total de registros
+    const total = await this.getTotalCount();
 
     return {
       data: items.sort((a, b) => a.id - b.id),
-      total: items.length,
+      total,
       page,
       limit,
     };
+  }
+
+  private async getTotalCount(): Promise<number> {
+    const countParams: AWS.DynamoDB.DocumentClient.ScanInput = {
+      TableName: TABLE,
+      Select: "COUNT",
+    };
+
+    const result = await dynamoDB.scan(countParams).promise();
+    return result?.Count || 0;
   }
 }

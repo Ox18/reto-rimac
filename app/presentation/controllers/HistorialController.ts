@@ -9,10 +9,13 @@ export class HistorialController implements Controller {
   async handle(event: any): Promise<any> {
     logger.info("HistorialController", { event });
 
-    const parameters = (event.queryStringParameters || {
+    const parameters = {
       page: 1,
       limit: 10,
-    }) as HistorialParameters;
+      ...event.queryStringParameters,
+    } as HistorialParameters;
+
+    console.log({ parameters });
 
     const response = await this.fusionRepository.paginated({
       page: Number(parameters.page),
