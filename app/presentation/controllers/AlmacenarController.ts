@@ -1,17 +1,13 @@
-import { APIGatewayProxyEvent } from "aws-lambda";
 import { PersonalizadoRepository } from "../../infra/db/repositories/PersonalizadoRepository";
 import { Controller } from "../protocols/Controller";
-import logger from "../../shared/logger";
 
 export class AlmacenarController implements Controller {
   constructor(
     public readonly personalizadoRepository: PersonalizadoRepository
   ) {}
 
-  async handle(request: APIGatewayProxyEvent): Promise<any> {
+  async handle(request: any): Promise<any> {
     const { body } = request;
-
-    logger.info("AlmacenarController", { body });
 
     const payload = JSON.parse(body as string);
 

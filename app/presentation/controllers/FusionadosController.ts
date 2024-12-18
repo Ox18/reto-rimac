@@ -1,8 +1,5 @@
-import { APIGatewayEvent } from "aws-lambda";
 import { FusionRepository } from "../../infra/db/repositories/FusionRepository";
 import { Controller } from "../protocols/Controller";
-import { FusionadosParameters } from "../protocols/FusionadosRequest";
-import logger from "../../shared/logger";
 import { SwapiService } from "../../infra/thirdparty/swapi/swapi.service";
 import { OMDBService } from "../../infra/thirdparty/omdb/omdb.service";
 import { fusionadosAdapter } from "../../main/adapters/FusionadosAdapter";
@@ -21,8 +18,6 @@ export class FusionadosController implements Controller {
   ) {}
 
   async handle(event: any): Promise<Fusionados> {
-    logger.info("FusionadosController", { event });
-
     const peopleId = Number(
       event.queryStringParameters?.peopleId ||
         randomNumber(FUSIONADOS_MIN_PEOPLE_ID, FUSIONADOS_MAX_PEOPLE_ID)

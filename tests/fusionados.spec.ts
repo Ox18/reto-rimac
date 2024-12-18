@@ -13,30 +13,28 @@ jest.mock("../app/infra/thirdparty/swapi/swapi.service");
 
 describe("Fusionados", () => {
   let fusionRepositoryMock: jest.Mocked<FusionRepository>;
-  let omdbRepositoryMock: jest.Mocked<OMDBService>;
-  let starWarsRepositoryMock: jest.Mocked<SwapiService>;
+  let omdbServiceMock: jest.Mocked<OMDBService>;
+  let swapiServiceMock: jest.Mocked<SwapiService>;
   let controller: FusionadosController;
 
   beforeEach(() => {
     fusionRepositoryMock =
       new FusionRepository() as jest.Mocked<FusionRepository>;
-    omdbRepositoryMock = new OMDBService() as jest.Mocked<OMDBService>;
-    starWarsRepositoryMock = new SwapiService() as jest.Mocked<SwapiService>;
+    omdbServiceMock = new OMDBService() as jest.Mocked<OMDBService>;
+    swapiServiceMock = new SwapiService() as jest.Mocked<SwapiService>;
 
     controller = new FusionadosController(
-      starWarsRepositoryMock,
-      omdbRepositoryMock,
+      swapiServiceMock,
+      omdbServiceMock,
       fusionRepositoryMock
     );
   });
 
-  it("debería retornar los datos fusionados correctamente", async () => {
+  it("Ibtener dato fusionado", async () => {
     fusionRepositoryMock.findFusion.mockResolvedValue(null);
-    starWarsRepositoryMock.findPeople.mockResolvedValue(findPeopleMock);
-
-    starWarsRepositoryMock.findFilm.mockResolvedValue(findFilmMock);
-
-    omdbRepositoryMock.find.mockResolvedValue(findMovieMock);
+    swapiServiceMock.findPeople.mockResolvedValue(findPeopleMock);
+    swapiServiceMock.findFilm.mockResolvedValue(findFilmMock);
+    omdbServiceMock.find.mockResolvedValue(findMovieMock);
     fusionRepositoryMock.create.mockResolvedValue(true);
 
     const result = await controller.handle({
@@ -47,7 +45,7 @@ describe("Fusionados", () => {
 
     expect(result.nombre).toEqual(fusionMock.character_name);
     expect(fusionRepositoryMock.create).toHaveBeenCalledTimes(1);
-    expect(starWarsRepositoryMock.findPeople).toHaveBeenCalledTimes(1);
-    expect(omdbRepositoryMock.find).toHaveBeenCalledTimes(1);
+    expect(swapiServiceMock.findPeople).toHaveBeenCalledTimes(1);
+    expect(omdbServiceMock.find).toHaveBeenCalledTimes(1);
   });
 });
