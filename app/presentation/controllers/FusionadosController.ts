@@ -5,11 +5,11 @@ import { OMDBService } from "../../infra/thirdparty/omdb/omdb.service";
 import { fusionadosAdapter } from "../../main/adapters/FusionadosAdapter";
 import { Fusionados } from "../../domain/models/Fusionados";
 import { randomNumber } from "../../shared/helpers/number.helper";
+
 import {
   FUSIONADOS_MAX_PEOPLE_ID,
   FUSIONADOS_MIN_PEOPLE_ID,
 } from "../../shared/consts/common";
-
 export class FusionadosController implements Controller {
   constructor(
     public readonly swapiService: SwapiService,

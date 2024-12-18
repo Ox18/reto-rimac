@@ -5,6 +5,7 @@ import { PaginatedRepository } from "../../../data/protocols/db/repositories/fus
 import { CreateFusion } from "../../../domain/usecases/CreateFusionados";
 import { FindFusionados } from "../../../domain/usecases/FindFusionados";
 import { PaginatedFusionados } from "../../../domain/usecases/PaginatedFusionados";
+import AWSXRay from "aws-xray-sdk";
 
 const TABLE = process.env.DYNAMODB_FUSION_TABLE || "FusionTable";
 
@@ -14,6 +15,13 @@ export class FusionRepository
   constructor() {}
 
   async create(data: CreateFusion.Params): Promise<CreateFusion.Response> {
+    AWSXRay.captureFunc("## FusionRepository.create", async (subsegment) => {
+      if (subsegment) {
+        subsegment.addAnnotation("characterId", data.id);
+        subsegment.close();
+      }
+    });
+
     const params = {
       TableName: TABLE,
       Item: {
@@ -30,6 +38,16 @@ export class FusionRepository
   async findFusion(
     data: FindFusionados.Params
   ): Promise<FindFusionados.Response> {
+    AWSXRay.captureFunc(
+      "## FusionRepository.findFusion",
+      async (subsegment) => {
+        if (subsegment) {
+          subsegment.addAnnotation("characterId", data.characterId);
+          subsegment.close();
+        }
+      }
+    );
+
     const params = {
       TableName: TABLE,
       Key: {
@@ -45,6 +63,14 @@ export class FusionRepository
   async paginated(
     data: PaginatedFusionados.Params
   ): Promise<PaginatedFusionados.Response> {
+    AWSXRay.captureFunc("## FusionRepository.paginated", async (subsegment) => {
+      if (subsegment) {
+        subsegment.addAnnotation("page", data.page);
+        subsegment.addAnnotation("limit", data.limit);
+        subsegment.close();
+      }
+    });
+
     const page = Number(data.page);
     const limit = Number(data.limit) || 10;
 
@@ -78,6 +104,15 @@ export class FusionRepository
   }
 
   private async getTotalCount(): Promise<number> {
+    AWSXRay.captureFunc(
+      "## FusionRepository.getTotalCount",
+      async (subsegment) => {
+        if (subsegment) {
+          subsegment.close();
+        }
+      }
+    );
+
     const countParams: AWS.DynamoDB.DocumentClient.ScanInput = {
       TableName: TABLE,
       Select: "COUNT",

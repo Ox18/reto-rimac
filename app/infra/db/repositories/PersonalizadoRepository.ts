@@ -2,6 +2,7 @@ import { dynamoDB } from "../connection/DbConnection";
 import { CreatePersonalizadoRepository } from "../../../data/protocols/db/repositories/personalizado/CreateRepository";
 import { CreatePersonalizado } from "../../../domain/usecases/CreatePersonalizado";
 import * as uuid from "uuid";
+import AWSXRay from "aws-xray-sdk";
 
 const TABLE = process.env.DYNAMODB_PERSONALIZADO_TABLE || "personalizedTable";
 
@@ -15,8 +16,20 @@ export class PersonalizadoRepository implements CreatePersonalizadoRepository {
   async create(
     data: CreatePersonalizado.Params
   ): Promise<CreatePersonalizado.Result> {
+    const id = this.randomId();
+
+    AWSXRay.captureFunc(
+      "## PersonalizadoRepository.create",
+      async (subsegment) => {
+        if (subsegment) {
+          subsegment.addAnnotation("id", id);
+          subsegment.close();
+        }
+      }
+    );
+
     const payload = {
-      id: this.randomId(),
+      id,
       ...data,
     };
 
