@@ -57,6 +57,7 @@ package:
     - README.md
     - tsconfig.json
     - tests/**
+    - docs/**
 
 functions:
   getFusionados:
