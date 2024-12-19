@@ -56,7 +56,7 @@ package:
     - jest.unit.config.js
     - README.md
     - tsconfig.json
-    - tests/**
+    - features/**
     - docs/**
 
 functions:

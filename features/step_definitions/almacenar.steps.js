@@ -13,9 +13,8 @@ Given("[almacenar] que tengo los siguientes datos:", function (dataTable) {
 When(
   "[almacenar] envío una solicitud POST al endpoint {string}",
   async function (endpoint) {
-    // this.response = await sendPostRequest(endpoint, this.payload);
     const baseUrl =
-      "https://el0vyj5gjl.execute-api.us-east-1.amazonaws.com/dev";
+      "http://localhost:3000/dev";
     const url = `${baseUrl}${endpoint}`;
     this.response = await axios.post(url, this.payload);
   }

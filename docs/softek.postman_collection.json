@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "d02e9072-d96b-45dc-9ab0-7d919e5811f7",
+		"name": "softek",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21068315"
+	},
+	"item": [
+		{
+			"name": "dev",
+			"item": [
+				{
+					"name": "fusionados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://el0vyj5gjl.execute-api.us-east-1.amazonaws.com/dev/fusionados",
+							"protocol": "https",
+							"host": [
+								"el0vyj5gjl",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"fusionados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "almacenar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Wilmer\",\n    \"apellido\": \"Delgado\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://el0vyj5gjl.execute-api.us-east-1.amazonaws.com/dev/almacenar",
+							"protocol": "https",
+							"host": [
+								"el0vyj5gjl",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"almacenar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "historial",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://el0vyj5gjl.execute-api.us-east-1.amazonaws.com/dev/historial",
+							"protocol": "https",
+							"host": [
+								"el0vyj5gjl",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"historial"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "local",
+			"item": [
+				{
+					"name": "fusionados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/dev/fusionados?peopleId=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"dev",
+								"fusionados"
+							],
+							"query": [
+								{
+									"key": "peopleId",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "almacenar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Wilmer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/dev/almacenar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"dev",
+								"almacenar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "historial",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/dev/historial?page=1&limit=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"dev",
+								"historial"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

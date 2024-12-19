@@ -9,7 +9,7 @@ Given("[fusionados] que tengo el peopleId {string}", function (peopleId) {
 });
 
 When("[fusionados] envío una solicitud GET al endpoint {string}", async function (endpoint) {
-  const baseUrl = "https://el0vyj5gjl.execute-api.us-east-1.amazonaws.com/dev";
+  const baseUrl = "http://localhost:3000/dev";
   const url = `${baseUrl}${endpoint}?peopleId=${this.peopleId}`;
 
   response = await axios.get(url);
