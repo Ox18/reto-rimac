@@ -1,6 +1,10 @@
 import { routeAdapter } from "../adapters/RouteAdapter";
-import { makeAlmacenarController } from "../factories/MakeAlmacenarController";
+import { makeAlmacenarController } from "../factories/controllers/MakeAlmacenarController";
+import { makeAlmacenarMiddleware } from "../factories/middlewares/MakeAlmacenarMiddleware";
 
 export default {
-  postAlmacenar: routeAdapter(makeAlmacenarController()),
+  postAlmacenar: routeAdapter(
+    makeAlmacenarController(),
+    makeAlmacenarMiddleware()
+  ),
 };

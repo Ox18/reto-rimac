@@ -1,0 +1,189 @@
+openapi: 3.0.1
+info:
+  title: Rimac Service API
+  description: API para manejar datos fusionados, historial y almacenamiento de datos personalizados.
+  version: 1.0.0
+servers:
+  - url: https://el0vyj5gjl.execute-api.us-east-1.amazonaws.com/dev
+    description: API en entorno de desarrollo
+paths:
+  /fusionados:
+    get:
+      summary: Obtener datos fusionados
+      description: Retorna los datos fusionados desde las APIs configuradas.
+      responses:
+        '200':
+          description: Datos fusionados obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pelicula:
+                    type: object
+                    properties:
+                      actores:
+                        type: array
+                        items:
+                          type: string
+                      trama:
+                        type: string
+                      titulo:
+                        type: string
+                      lanzamiento:
+                        type: string
+                        format: date
+                    example:
+                      actores: ["Mark Hamill", "Harrison Ford", "Carrie Fisher"]
+                      trama: "After rescuing Han Solo from Jabba the Hutt, the Rebel Alliance attempts to destroy the second Death Star while Luke struggles to help Darth Vader back from the dark side."
+                      titulo: "Star Wars: Episode VI - Return of the Jedi"
+                      lanzamiento: "25-05-1983"
+                  altura:
+                    type: integer
+                    example: 167
+                  peso:
+                    type: integer
+                    example: 75
+                  genero:
+                    type: string
+                    example: "Mujer"
+                  id:
+                    type: integer
+                    example: 2
+                  fecha_creacion:
+                    type: object
+                    example: {}
+                  nombre:
+                    type: string
+                    example: "C-3PO"
+        '500':
+          description: Error interno del servidor
+  /historial:
+    get:
+      summary: Obtener historial
+      description: Retorna el historial de respuestas de las APIs fusionadas con soporte de paginación.
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Número de la página para la paginación.
+          schema:
+            type: integer
+            example: 1
+        - name: limit
+          in: query
+          required: false
+          description: Límite de registros por página.
+          schema:
+            type: integer
+            example: 10
+      responses:
+        '200':
+          description: Historial obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        pelicula:
+                          type: object
+                          properties:
+                            actores:
+                              type: array
+                              items:
+                                type: string
+                            trama:
+                              type: string
+                            titulo:
+                              type: string
+                            lanzamiento:
+                              type: string
+                              format: date
+                          example:
+                            actores: ["Hayden Christensen", "Natalie Portman", "Ewan McGregor"]
+                            trama: "With the Clone Wars coming to its end, Obi-Wan Kenobi pursues a new threat, while Anakin Skywalker is lured by Chancellor Palpatine into a sinister plot for galactic domination."
+                            titulo: "Star Wars: Episode III - Revenge of the Sith"
+                            lanzamiento: "19-05-2005"
+                        altura:
+                          type: integer
+                          example: 172
+                        peso:
+                          type: integer
+                          example: 77
+                        genero:
+                          type: string
+                          example: "Hombre"
+                        id:
+                          type: integer
+                          example: 1
+                        fecha_creacion:
+                          type: object
+                          example: {}
+                        nombre:
+                          type: string
+                          example: "Luke Skywalker"
+                  total:
+                    type: integer
+                    description: Total de registros disponibles.
+                    example: 4
+                  page:
+                    type: integer
+                    description: Número de página actual.
+                    example: 1
+                  limit:
+                    type: integer
+                    description: Límite de registros por página.
+                    example: 10
+        '400':
+          description: Parámetros inválidos
+        '500':
+          description: Error interno del servidor
+  /almacenar:
+    post:
+      summary: Almacenar datos personalizados
+      description: Almacena datos personalizados en la base de datos.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Nombre de la persona.
+                  example: Wilmer
+                lastname:
+                  type: string
+                  description: Apellido de la persona.
+                  example: Delgado
+      responses:
+        '201':
+          description: Datos almacenados exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: Identificador único del registro creado.
+                    example: "2ac2e78b-87b9-43e1-953a-27fc2caa497b"
+                  nombre:
+                    type: string
+                    description: Nombre de la persona almacenada.
+                    example: Wilmer
+                  apellido:
+                    type: string
+                    description: Apellido de la persona almacenada.
+                    example: Delgado
+        '400':
+          description: Datos inválidos
+        '500':
+          description: Error interno del servidor

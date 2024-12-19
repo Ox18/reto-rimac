@@ -3,7 +3,8 @@
     "build": "rm -rf dist && tsc",
     "local": "npm run build && serverless offline start",
     "deploy": "npm run build && serverless deploy --stage dev --force",
-    "test": "jest --config jest.unit.config.js"
+    "test": "jest --config jest.unit.config.js",
+    "swagger": "node docs/index"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.146",
@@ -12,13 +13,15 @@
     "serverless-offline": "^14.4.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "yamljs": "^0.3.0"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.709.0",
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1692.0",
     "axios": "^1.7.9",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^11.0.3",
     "winston": "^3.17.0"
   }

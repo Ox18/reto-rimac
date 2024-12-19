@@ -3,7 +3,7 @@ import { Middleware } from "../protocols/Middleware";
 import { RateLimitingRepository } from "../../infra/db/repositories/RateLimitingRepository";
 import { RateLimitingException } from "../exceptions/RateLimitingException";
 
-const LIMIT = 10;
+const LIMIT = 12;
 
 export class RateLimitingMiddleware implements Middleware {
   constructor(

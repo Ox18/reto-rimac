@@ -1,6 +1,10 @@
 import { routeAdapter } from "../adapters/RouteAdapter";
-import { makeHistorialController } from "../factories/MakeHistorialController";
+import { makeHistorialController } from "../factories/controllers/MakeHistorialController";
+import { makeHistorialMiddleware } from "../factories/middlewares/MakeHistorialMiddleware";
 
 export default {
-  getHistorial: routeAdapter(makeHistorialController()),
+  getHistorial: routeAdapter(
+    makeHistorialController(),
+    makeHistorialMiddleware()
+  ),
 };
