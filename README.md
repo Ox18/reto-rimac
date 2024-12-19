@@ -50,6 +50,17 @@ Desplegar proyecto
 
 > npm run deploy
 
+## Swagger - Documentación del API
+Para visualizar la documentación del API con Swagger:
+
+Ejecuta el siguiente comando para levantar el servidor de documentación:
+
+```bash
+node docs/index
+```
+
+Abre tu navegador y accede a http://localhost:3000/api-docs para explorar y probar los endpoints del API.
+
 # Referencia del API
 
 ## Obtener datos fusionados
